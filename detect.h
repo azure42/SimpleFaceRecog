@@ -1,5 +1,8 @@
 #ifndef DETECT_H
 #define DETECT_H
+
+#include "stable.h"
+
 #include <QThread>
 #include <QDebug>
 #include <QTimer>

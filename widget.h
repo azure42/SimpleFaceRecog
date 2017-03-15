@@ -1,11 +1,14 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+#include "stable.h"
 #include <QWidget>
 #include "detect.h"
+#include "recognize.h"
 #include <QTimer>
 #include <QDebug>
 #include <QString>
+#include<QMessageBox>
 namespace Ui {
 class Widget;
 }
@@ -21,11 +24,16 @@ public:
 private:
     Ui::Widget *ui;
     Detect *detectThread;
+    Recognize *recThread;
     QTimer *imgTimer;
+    int mode;
 
 public slots:
     void imgUpdate();
     void msgUpdate();
+private slots:
+    void on_detectButton_clicked();
+    void on_saveButton_clicked();
 };
 
 #endif // WIDGET_H

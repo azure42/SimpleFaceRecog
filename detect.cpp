@@ -7,9 +7,9 @@ Detect::Detect()
     timer = new QTimer(this);
 
     //    string inputName;
-    if(!cascade.load("E:/Qt Project/build-face2-Desktop_Qt_5_7_0_MinGW_32bit-Debug/debug/haarcascade_frontalface_alt.xml"))
+    if(!cascade.load("E:/haarcascade_frontalface_alt.xml"))
         qDebug() << "cascade 1 load faild!";
-    if(!nestedCascade.load("E:/Qt Project/build-face2-Desktop_Qt_5_7_0_MinGW_32bit-Debug/debug/haarcascade_eye_tree_eyeglasses.xml"))
+    if(!nestedCascade.load("E:/haarcascade_eye_tree_eyeglasses.xml"))
         qDebug() << "cascade 2 load faild!";
     capture.open(0);
 
@@ -178,6 +178,7 @@ void Detect::detectAndDraw( Mat& img, CascadeClassifier& cascade,
             if(j == 1)
             {
                 faceImg = cvMat2QImage(smallImgROI);
+
             //qDebug() << nestedObjects.size();
             QString tmpStr = QString::number(t/((double)cvGetTickFrequency()*1000));
             sendMsg(QString("检测到人脸，耗时 ") + tmpStr + " ms");

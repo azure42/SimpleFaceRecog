@@ -14,10 +14,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         widget.cpp \
-    detect.cpp
+    detect.cpp \
+    recognize.cpp
 
 HEADERS  += widget.h \
-    detect.h
+    detect.h \
+    recognize.h \
+    stable.h
 
 FORMS    += widget.ui
 
@@ -25,6 +28,8 @@ FORMS    += widget.ui
 INCLUDEPATH+=D:/OpenCV/include/opencv
 INCLUDEPATH+=D:/OpenCV/include/opencv2
 INCLUDEPATH+=D:/OpenCV/include
-LIBS += -L D:/OpenCV/lib/libopencv_*.a
+LIBS += -L D:/OpenCV/lib/lib*.a
+
+PRECOMPILED_HEADER = stable.h
 
 
