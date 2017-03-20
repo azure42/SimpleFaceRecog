@@ -8,7 +8,7 @@ Recognize::Recognize()
     else
         qDebug() <<"cascade 1 load success!";
     if(!nestedCascade.load(NestedCascadePATH))
-        qDebug() << "cascade 2 load success";
+        qDebug() << "cascade 2 load faild";
 
     capture.open(0);
     faceCnt = 0;
@@ -35,9 +35,9 @@ void Recognize::run()
 
 
     dataDir.setPath(DataPATH);//文件夹命名：num_name
-    nameCnt = dataDir.count() -2;//统计现有数据文件夹个数，减去的两个是.和..
+    nameCnt = dataDir.count() ;//统计现有数据文件夹个数，减去的两个是.和..
     qDebug() << "nameCnt: " << nameCnt;
-    savePath.setPath(QString(DataPATH) + QString::number(nameCnt) + "_" +name);
+    savePath.setPath(dataDir.absolutePath() + "/" + QString::number(nameCnt) + "_" +name);
 
     sendMsg(name+"的人脸图片数据将存储到");
     sendMsg(savePath.path());

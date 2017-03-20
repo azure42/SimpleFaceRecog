@@ -7,9 +7,9 @@ Detect::Detect()
     timer = new QTimer(this);
 
     //    string inputName;
-    if(!cascade.load("E:/haarcascade_frontalface_alt.xml"))
+    if(!cascade.load(CascadePATH))
         qDebug() << "cascade 1 load faild!";
-    if(!nestedCascade.load("E:/haarcascade_eye_tree_eyeglasses.xml"))
+    if(!nestedCascade.load(NestedCascadePATH))
         qDebug() << "cascade 2 load faild!";
     capture.open(0);
 

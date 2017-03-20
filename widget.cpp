@@ -23,6 +23,8 @@ Widget::Widget(QWidget *parent) :
 Widget::~Widget()
 {
     delete ui;
+    delete detectThread;
+    delete recThread;
 }
 
 void Widget::imgUpdate()

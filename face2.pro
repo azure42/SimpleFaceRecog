@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-
+#DEFINES += RUN_ON_EMBEDDEDSYSTEM
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
