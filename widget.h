@@ -9,6 +9,8 @@
 #include <QDebug>
 #include <QString>
 #include<QMessageBox>
+
+
 namespace Ui {
 class Widget;
 }
@@ -30,7 +32,7 @@ private:
 
 public slots:
     void imgUpdate();
-    void msgUpdate();
+    void msgUpdate(QString msg);
 private slots:
     void on_detectButton_clicked();
     void on_saveButton_clicked();

@@ -49,7 +49,7 @@ private:
     QDateTime currentTime;
 
 signals:
-    void msgSend();
+    void msgSend(QString);
 
 
 };

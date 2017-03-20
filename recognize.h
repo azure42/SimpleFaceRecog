@@ -43,13 +43,14 @@ private:
     QDateTime currentTime;
     vector<Mat> images;
     vector<int> labels;
-    int faceCnt;
+    int faceCnt,nameCnt;
+    QDir savePath,dataDir;
 
 
 
     bool DeleteDirectory(const QString &path);
 signals:
-    void msgSend();
+    void msgSend(QString);
 
 
 };

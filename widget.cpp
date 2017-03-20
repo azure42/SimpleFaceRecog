@@ -11,8 +11,8 @@ Widget::Widget(QWidget *parent) :
 
     imgTimer = new QTimer(this);
     connect(imgTimer,SIGNAL(timeout()),this,SLOT(imgUpdate()));
-    connect(detectThread,SIGNAL(msgSend()),this,SLOT(msgUpdate()));
-    connect(recThread,SIGNAL(msgSend()),this,SLOT(msgUpdate()));
+    connect(detectThread,SIGNAL(msgSend(QString)),this,SLOT(msgUpdate(QString)));
+    connect(recThread,SIGNAL(msgSend(QString)),this,SLOT(msgUpdate(QString)));
 
     //detectThread->start();
     imgTimer->start(300);
@@ -46,18 +46,18 @@ void Widget::imgUpdate()
     }
 }
 
-void Widget::msgUpdate()
+void Widget::msgUpdate(QString msg)
 {
     switch(mode)
     {
     case 1:
     {
-        ui->resultView->addItem(detectThread->msg);
+        ui->resultView->addItem(msg);
         ui->resultView->scrollToBottom();
     }
     case 2:
     {
-        ui->resultView->addItem(recThread->msg);
+        ui->resultView->addItem(msg);
         ui->resultView->scrollToBottom();
     }
     }
@@ -67,6 +67,7 @@ void Widget::msgUpdate()
 void Widget::on_detectButton_clicked()
 {
     mode = 1;
+    //detectThread = new Detect;
     detectThread->start();
 
 }
@@ -88,8 +89,10 @@ void Widget::on_saveButton_clicked()
         {
             recThread->oldName = recThread->name;
             recThread->name = ui->lineEdit->text();
+            //recThread = new recThread;
             recThread->start();
         }
     }
 
 }
+

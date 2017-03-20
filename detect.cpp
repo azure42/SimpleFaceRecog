@@ -24,8 +24,7 @@ void Detect::run()
     }
     else
     {
-        msg = QString("摄像头初始化失败");
-        emit msgSend();
+        sendMsg(QString("摄像头初始化失败"));
     }
     for(;;)
     {
@@ -198,7 +197,7 @@ void Detect::sendMsg(QString msg1)
     QString timeStr = currentTime.toString("hh:mm:ss:zzz  ");
     msg = timeStr +  msg1;
 
-    emit msgSend();
+    emit msgSend(msg);
 }
 
 

@@ -16,4 +16,13 @@
 #include "opencv2/face/facerec.hpp"
 #include "opencv2/face.hpp"
 
+#ifdef WIN32
+    #define CascadePATH "E:/haarcascade_frontalface_alt.xml"
+    #define NestedCascadePATH "E:/haarcascade_frontalface_alt.xml"
+    #define DataPATH "E:/data/"
+    #define modelPATH "E:/eigenfaces_at.yml"
+#else //不是windows 也可以#elif defined(linux)
+
+#endif
+
 #endif // STABLE_H

@@ -4,6 +4,7 @@
 #
 #-------------------------------------------------
 
+
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -24,12 +25,19 @@ HEADERS  += widget.h \
 
 FORMS    += widget.ui
 
-
-INCLUDEPATH+=D:/OpenCV/include/opencv
-INCLUDEPATH+=D:/OpenCV/include/opencv2
-INCLUDEPATH+=D:/OpenCV/include
-LIBS += -L D:/OpenCV/lib/lib*.a
-
 PRECOMPILED_HEADER = stable.h
+
+if(contains(DEFINES,RUN_ON_EMBEDDEDSYSTEM)){#contains和{必须在同一行，否则报错
+INCLUDEPATH += /usr/local/include \
+                /usr/local/include/opencv \
+                /usr/local/include/opencv2
+LIBS += /usr/local/lib/libopencv_*.so \
+
+}else{
+INCLUDEPATH+=D:/OpenCV/include \
+INCLUDEPATH+=D:/OpenCV/include/opencv \
+INCLUDEPATH+=D:/OpenCV/include/opencv2
+LIBS += -L D:/OpenCV/lib/lib*.a
+}
 
 

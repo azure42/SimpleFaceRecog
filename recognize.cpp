@@ -3,11 +3,11 @@
 Recognize::Recognize()
 {
     qDebug() << "recognize";
-    if(!cascade.load("E:/haarcascade_frontalface_alt.xml"))
+    if(!cascade.load(CascadePATH))
         qDebug() << "cascade 1 load faild!";
     else
         qDebug() <<"cascade 1 load success!";
-    if(!nestedCascade.load("E:/haarcascade_eye_tree_eyeglasses.xml"))
+    if(!nestedCascade.load(NestedCascadePATH))
         qDebug() << "cascade 2 load success";
 
     capture.open(0);
@@ -33,10 +33,15 @@ void Recognize::run()
         sendMsg(QString("摄像头初始化失败"));
     }
 
-    QDir savePath;
-    savePath.setPath(QString("E:/data/") + name);
-    sendMsg(name+"的人脸图片数据将存储到"+savePath.path());
 
+    dataDir.setPath(DataPATH);//文件夹命名：num_name
+    nameCnt = dataDir.count() -2;//统计现有数据文件夹个数，减去的两个是.和..
+    qDebug() << "nameCnt: " << nameCnt;
+    savePath.setPath(QString(DataPATH) + QString::number(nameCnt) + "_" +name);
+
+    sendMsg(name+"的人脸图片数据将存储到");
+    sendMsg(savePath.path());
+    //申请单个人脸识别数据存储文件夹
     if(savePath.exists(savePath.path()))
     {
         qDebug() << "存在";
@@ -55,8 +60,6 @@ void Recognize::run()
     {
         sendMsg(name+"目录不存在，尝试新建");
     }
-
-
     if(savePath.mkpath(savePath.path()))
     {
         qDebug() << "新文件夹";
@@ -65,28 +68,34 @@ void Recognize::run()
     else
         sendMsg(QString("新建图片存储目录失败"));
 
-    while(faceCnt <30)
+    //捕获若干次人脸数据
+    while(faceCnt <2)
     {
         capture >> frame;
         //if( frame.empty() )
         //break;
 
         Mat frame1 = frame.clone();
-
         detectAndSave( frame1, cascade, nestedCascade, scale, tryflip );
-
         mainImg = cvMat2QImage(frame1);
     }
 
-
-
+    /*
+    //开始对所有人脸数据进行训练
     double t = (double)cvGetTickCount();
     Ptr<FaceRecognizer> model = createEigenFaceRecognizer();
     model->train(images, labels);
     t = (double)cvGetTickCount() - t;
     qDebug() << "train success in " << t/((double)cvGetTickFrequency()*1000) << "ms";
-    model->save("E:/eigenfaces_at.yml");
+    model->save(modelPATH);
+    */
 
+    faceCnt = 0;
+    sendMsg(QString("--------------------------------"));
+    sendMsg(name + "数据录入完成！");
+    sendMsg(QString("--------------------------------"));
+
+    this->quit();
 }
 
 
@@ -178,7 +187,7 @@ void Recognize::detectAndSave( Mat& img, CascadeClassifier& cascade,
             radius = cvRound((nr.width + nr.height)*0.25*scale);
             circle( img, center, radius, color, 3, 8, 0 );
             if(j == 1 && !smallImgROI.empty())
-                //嵌套检测到较多的特征，可认为识别到人脸
+            //嵌套检测到较多的特征，可认为识别到人脸
             {
                 faceCnt++;
                 Mat tmpMat;
@@ -189,7 +198,7 @@ void Recognize::detectAndSave( Mat& img, CascadeClassifier& cascade,
 
                 resize(smallImgROI,tmpMat,Size(100,100));
                 //qDebug() << "channels1:" << smallImgROI.channels() << "channels2:" << img.channels();
-                imwrite(format("E:/data/%s/%d.png",name.toStdString().data(),faceCnt),tmpMat);
+                imwrite(format("%s/%d.png",savePath.path().toStdString().data(),faceCnt),tmpMat);
                 faceImg = cvMat2QImage(smallImgROI);
                 images.push_back(tmpMat);
                 labels.push_back(0);
@@ -210,8 +219,9 @@ void Recognize::sendMsg(QString msg1)
     currentTime = QDateTime::currentDateTime();
     QString timeStr = currentTime.toString("hh:mm:ss:zzz  ");
     msg = timeStr +  msg1;
+    qDebug() << msg;
 
-    emit msgSend();
+    emit msgSend(msg);
 }
 
 Mat Recognize::norm_0_255(InputArray _src) {
