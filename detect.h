@@ -42,9 +42,9 @@ private:
 
     void run();
 
-    bool tryflip = 0;
+    const bool tryflip = 0;
     CascadeClassifier cascade, nestedCascade;
-    double scale = 1.3;
+    const double scale = 1.3;
 
     QDateTime currentTime;
 

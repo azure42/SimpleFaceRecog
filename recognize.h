@@ -38,8 +38,8 @@ private:
     void sendMsg(QString msg1);
     void detectAndSave(Mat &img, CascadeClassifier &cascade, CascadeClassifier &nestedCascade, double scale, bool tryflip);
     QImage cvMat2QImage(const cv::Mat &mat);
-    bool tryflip = 0;
-    double scale = 1.3;
+    const bool tryflip = 0;
+    const double scale = 1.3;
     QDateTime currentTime;
     vector<Mat> images;
     vector<int> labels;
