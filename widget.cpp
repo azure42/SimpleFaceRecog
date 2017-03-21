@@ -23,6 +23,8 @@ Widget::Widget(QWidget *parent) :
 Widget::~Widget()
 {
     delete ui;
+    detectThread->exit();
+    recThread->exit();
     delete detectThread;
     delete recThread;
 }

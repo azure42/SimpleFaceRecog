@@ -199,6 +199,7 @@ void Recognize::detectAndSave( Mat& img, CascadeClassifier& cascade,
                 resize(smallImgROI,tmpMat,Size(100,100));
                 //qDebug() << "channels1:" << smallImgROI.channels() << "channels2:" << img.channels();
                 imwrite(format("%s/%d.png",savePath.path().toStdString().data(),faceCnt),tmpMat);
+                //qDebug() << format("%s/%d.png",savePath.path().toStdString().data(),faceCnt);
                 faceImg = cvMat2QImage(smallImgROI);
                 images.push_back(tmpMat);
                 labels.push_back(0);
