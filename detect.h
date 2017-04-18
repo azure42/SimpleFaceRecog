@@ -21,6 +21,7 @@ class Detect  : public QThread
     Q_OBJECT
 public:
     Detect();
+    ~Detect();
     QImage mainImg,faceImg;
     QString msg;
 

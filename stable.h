@@ -9,6 +9,7 @@
 #include <QImage>
 #include <QString>
 #include <QDateTime>
+#include <QDir>
 #include "opencv2/objdetect.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
@@ -18,7 +19,7 @@
 
 #ifdef WIN32
     #define CascadePATH "./haarcascade_frontalface_alt.xml"
-    #define NestedCascadePATH "./haarcascade_frontalface_alt.xml"
+    #define NestedCascadePATH "./haarcascade_eye_tree_eyeglasses.xml"
     #define DataPATH "./data/"
     #define modelPATH "./eigenfaces_at.yml"
 #else //不是windows 也可以#elif defined(linux)

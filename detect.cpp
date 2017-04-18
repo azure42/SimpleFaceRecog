@@ -11,13 +11,19 @@ Detect::Detect()
         qDebug() << "cascade 1 load faild!";
     if(!nestedCascade.load(NestedCascadePATH))
         qDebug() << "cascade 2 load faild!";
-    capture.open(0);
+
 
     timer->start(100);
 }
 
+Detect::~Detect()
+{
+    capture.release();
+}
+
 void Detect::run()
 {
+    capture.open(0);
     if( capture.isOpened() )
     {
         sendMsg(QString("摄像头初始化成功"));

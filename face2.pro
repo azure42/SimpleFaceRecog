@@ -18,12 +18,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         widget.cpp \
     detect.cpp \
-    recognize.cpp
+    train.cpp \
+    collect.cpp
 
 HEADERS  += widget.h \
     detect.h \
-    recognize.h \
-    stable.h
+    stable.h \
+    train.h \
+    collect.h
 
 FORMS    += widget.ui
 
@@ -37,8 +39,8 @@ LIBS += /usr/local/lib/libopencv_*.so \
 
 }else{
 INCLUDEPATH+=D:/OpenCV/include \
-INCLUDEPATH+=D:/OpenCV/include/opencv \
-INCLUDEPATH+=D:/OpenCV/include/opencv2
+             D:/OpenCV/include/opencv \
+             D:/OpenCV/include/opencv2
 LIBS += -L D:/OpenCV/lib/lib*.a
 }
 

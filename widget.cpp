@@ -7,12 +7,14 @@ Widget::Widget(QWidget *parent) :
 {
     ui->setupUi(this);
     detectThread = new Detect;
-    recThread = new Recognize;
+    collectThread = new Collect;
+    trainThread = new Train;
 
     imgTimer = new QTimer(this);
     connect(imgTimer,SIGNAL(timeout()),this,SLOT(imgUpdate()));
     connect(detectThread,SIGNAL(msgSend(QString)),this,SLOT(msgUpdate(QString)));
-    connect(recThread,SIGNAL(msgSend(QString)),this,SLOT(msgUpdate(QString)));
+    connect(collectThread,SIGNAL(msgSend(QString)),this,SLOT(msgUpdate(QString)));
+    connect(trainThread,SIGNAL(msgSend(QString)),this,SLOT(msgUpdate(QString)));
 
     //detectThread->start();
     imgTimer->start(300);
@@ -24,9 +26,11 @@ Widget::~Widget()
 {
     delete ui;
     detectThread->exit();
-    recThread->exit();
+    collectThread->exit();
+    trainThread->exit();
     delete detectThread;
-    delete recThread;
+    delete collectThread;
+    delete trainThread;
 }
 
 void Widget::imgUpdate()
@@ -43,8 +47,8 @@ void Widget::imgUpdate()
     }break;
     case 2 :
     {
-        ui->mainImg->setPixmap(img.fromImage(recThread->mainImg));
-        ui->faceImg->setPixmap(img.fromImage(recThread->faceImg));
+        ui->mainImg->setPixmap(img.fromImage(collectThread->mainImg));
+        ui->faceImg->setPixmap(img.fromImage(collectThread->faceImg));
     }break;
     default:break;
     }
@@ -52,20 +56,8 @@ void Widget::imgUpdate()
 
 void Widget::msgUpdate(QString msg)
 {
-    switch(mode)
-    {
-    case 1:
-    {
-        ui->resultView->addItem(msg);
-        ui->resultView->scrollToBottom();
-    }
-    case 2:
-    {
-        ui->resultView->addItem(msg);
-        ui->resultView->scrollToBottom();
-    }
-    }
-
+    ui->resultView->addItem(msg);
+    ui->resultView->scrollToBottom();
 }
 
 void Widget::on_detectButton_clicked()
@@ -85,18 +77,24 @@ void Widget::on_saveButton_clicked()
     }
     else
     {
-        if(recThread->oldName == ui->lineEdit->text())
+        if(collectThread->oldName == ui->lineEdit->text())
         {
             QMessageBox::warning(this,tr("错误"),tr("姓名已存在"),QMessageBox::Ok);
         }
         else
         {
-            recThread->oldName = recThread->name;
-            recThread->name = ui->lineEdit->text();
+            collectThread->oldName = collectThread->name;
+            collectThread->name = ui->lineEdit->text();
             //recThread = new recThread;
-            recThread->start();
+            collectThread->start();
         }
     }
 
 }
 
+
+void Widget::on_trainButton_clicked()
+{
+    mode = 3;
+    trainThread->start();
+}

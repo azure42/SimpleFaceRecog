@@ -3,13 +3,14 @@
 
 #include "stable.h"
 #include <QWidget>
-#include "detect.h"
-#include "recognize.h"
 #include <QTimer>
 #include <QDebug>
 #include <QString>
 #include<QMessageBox>
 
+#include "detect.h"
+#include "collect.h"
+#include "train.h"
 
 namespace Ui {
 class Widget;
@@ -26,7 +27,8 @@ public:
 private:
     Ui::Widget *ui;
     Detect *detectThread;
-    Recognize *recThread;
+    Collect *collectThread;
+    Train *trainThread;
     QTimer *imgTimer;
     int mode;
 
@@ -36,6 +38,7 @@ public slots:
 private slots:
     void on_detectButton_clicked();
     void on_saveButton_clicked();
+    void on_trainButton_clicked();
 };
 
 #endif // WIDGET_H

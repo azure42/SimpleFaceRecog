@@ -67,14 +67,14 @@
            <item>
             <widget class="QPushButton" name="detectButton">
              <property name="text">
-              <string>识别</string>
+              <string>开始检测人脸</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="manButton">
+            <widget class="QPushButton" name="pushButton">
              <property name="text">
-              <string>管理</string>
+              <string>识别人脸</string>
              </property>
             </widget>
            </item>
@@ -119,10 +119,6 @@
              </property>
             </widget>
            </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
             <widget class="QPushButton" name="saveButton">
              <property name="enabled">
@@ -130,6 +126,17 @@
              </property>
              <property name="text">
               <string>录入</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QPushButton" name="manButton">
+             <property name="text">
+              <string>管理</string>
              </property>
             </widget>
            </item>
