@@ -32,6 +32,11 @@ void Detect::run()
     {
         sendMsg(QString("摄像头初始化失败"));
     }
+
+    Ptr<FaceRecognizer> model = createEigenFaceRecognizer();
+    model->load("./model.yml");
+    int predictedLabel = -1;
+    double confidence = 0.0;
     for(;;)
     {
 
@@ -40,9 +45,19 @@ void Detect::run()
         //break;
 
     Mat frame1 = frame.clone();
-
     detectAndDraw( frame1, cascade, nestedCascade, scale, tryflip );
     mainImg = cvMat2QImage(frame1);
+
+    //
+    //Mat tmptmp;
+    //tmptmp = imread("C:\\Users\\LJY\\Desktop\\1\\5_5\\1.bmp");
+    //resize(tmptmp,faceMat,Size(100,100));
+    //qDebug() << faceMat.rows <<"x"<<faceMat.cols;
+    //
+
+    if(!faceMat.empty())
+        model->predict(faceMat, predictedLabel, confidence);
+    qDebug() <<"predictedLabel:" << predictedLabel << "confidence:" << confidence;
     }
 }
 
@@ -141,7 +156,7 @@ void Detect::detectAndDraw( Mat& img, CascadeClassifier& cascade,
         }
     }
     t = (double)cvGetTickCount() - t;
-   // printf( "detection time = %g ms\n", t/((double)cvGetTickFrequency()*1000.) );
+   // printf( "detection time = %g ms\\n", t/((double)cvGetTickFrequency()*1000.) );
     for ( size_t i = 0; i < faces.size(); i++ )
     {
         Rect r = faces[i];
@@ -187,6 +202,7 @@ void Detect::detectAndDraw( Mat& img, CascadeClassifier& cascade,
             //qDebug() << nestedObjects.size();
             QString tmpStr = QString::number(t/((double)cvGetTickFrequency()*1000));
             sendMsg(QString("检测到人脸，耗时 ") + tmpStr + " ms");
+            resize(smallImgROI,faceMat,Size(100,100));
             }
 
       //

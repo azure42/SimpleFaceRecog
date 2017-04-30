@@ -72,7 +72,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="recogButton">
              <property name="text">
               <string>识别人脸</string>
              </property>

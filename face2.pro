@@ -19,13 +19,15 @@ SOURCES += main.cpp\
         widget.cpp \
     detect.cpp \
     train.cpp \
-    collect.cpp
+    collect.cpp \
+    recog.cpp
 
 HEADERS  += widget.h \
     detect.h \
     stable.h \
     train.h \
-    collect.h
+    collect.h \
+    recog.h
 
 FORMS    += widget.ui
 

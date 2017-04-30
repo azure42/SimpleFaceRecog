@@ -18,7 +18,7 @@ Widget::Widget(QWidget *parent) :
 
     //detectThread->start();
     imgTimer->start(300);
-    mode = 0;//mode是为了区别界面刷新规则定义的，1是检测模式，2是识别模式
+    mode = 0;//mode是为了区别界面刷新规则定义的，1是检测模式，2是录入模式
 
 }
 
@@ -97,4 +97,9 @@ void Widget::on_trainButton_clicked()
 {
     mode = 3;
     trainThread->start();
+}
+
+void Widget::on_recogButton_clicked()
+{
+
 }

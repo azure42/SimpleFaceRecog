@@ -20,7 +20,6 @@ Train::Train()
 
 Train::~Train()
 {
-
 }
 
 void Train::run()
@@ -44,16 +43,22 @@ void Train::run()
         QDirIterator picIt(picPath.path() + "/" + dirName);
         while(true)
         {
-            //文件夹内的图片遍历，将所有png读取为mat后压入vector待训练
+            //文件夹内的图片遍历，将所有bmp读取为mat后压入vector待训练
             //qDebug() << "picName: " << picIt.filePath();
-            if(picIt.fileName().indexOf("png") != -1)
+            if(picIt.fileName().indexOf("bmp") != -1)
             {
                 picCnt ++;
                 qDebug() << "picPath: " << picIt.filePath();
-                //qDebug() <<picIt.fileName().indexOf("png");
+                //qDebug() <<picIt.fileName().indexOf("bmp");
                 label.push_back(i);
                 Mat tmpMat = imread(picIt.filePath().toStdString(),0);
-                image.push_back(tmpMat);
+                Mat tmpMat2;
+                resize(tmpMat,tmpMat2,Size(100,100));
+
+                image.push_back(tmpMat2);
+                qDebug() << i<<"-"<<tmpMat2.empty();
+               // imshow(QString::number(i).toStdString(),tmpMat);
+                qDebug() << tmpMat2.rows <<"x" <<tmpMat2.cols;
                 tmpMat.release();
             }
             if(!picIt.hasNext()) break;
@@ -69,7 +74,7 @@ void Train::run()
 
     }
     double t = (double)cvGetTickCount();
-    Ptr<FaceRecognizer> model = createLBPHFaceRecognizer();
+    Ptr<FaceRecognizer> model = createEigenFaceRecognizer();
     model->train(image, label);
     t = (double)cvGetTickCount() - t;
     QString tmpStr = QString("训练完成，用时") +
@@ -77,7 +82,6 @@ void Train::run()
     sendMsg(tmpStr);
     //qDebug() << "train success in " << t/((double)cvGetTickFrequency()*1000) << "ms";
     model->save("./model.yml");
-
     this->quit();
 }
 

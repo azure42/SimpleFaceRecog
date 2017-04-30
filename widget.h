@@ -39,6 +39,7 @@ private slots:
     void on_detectButton_clicked();
     void on_saveButton_clicked();
     void on_trainButton_clicked();
+    void on_recogButton_clicked();
 };
 
 #endif // WIDGET_H

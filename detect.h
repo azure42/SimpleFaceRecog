@@ -15,6 +15,7 @@
 
 using namespace std;
 using namespace cv;
+using namespace cv::face;
 
 class Detect  : public QThread
 {
@@ -35,7 +36,7 @@ private:
     string nestedCascadeName;
 
     VideoCapture capture;
-    Mat frame;
+    Mat frame,faceMat;
 
 
     QImage cvMat2QImage(const cv::Mat& mat);
