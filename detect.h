@@ -2,16 +2,8 @@
 #define DETECT_H
 
 #include "stable.h"
-
-#include <QThread>
-#include <QDebug>
-#include <QTimer>
-#include <QImage>
-#include <QString>
-#include <QDateTime>
-#include "opencv2/objdetect.hpp"
-#include "opencv2/highgui.hpp"
-#include "opencv2/imgproc.hpp"
+#include <QPair>
+#include <QHash>
 
 using namespace std;
 using namespace cv;
@@ -50,8 +42,13 @@ private:
 
     QDateTime currentTime;
 
+    QHash<int,QString> nameTable;
+    QDir picPath;
+
+
 signals:
     void msgSend(QString);
+    void nameLabelUpdate(QString);
 
 
 };

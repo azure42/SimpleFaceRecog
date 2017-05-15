@@ -33,13 +33,17 @@ private:
     int mode;
 
 public slots:
-    void imgUpdate();
-    void msgUpdate(QString msg);
+    void imgUpdateSlot();
+    void msgUpdateSlot(QString msg);
+    void listUpdateSlot();
+    void nameLabelUpdateSlot(QString name);
 private slots:
     void on_detectButton_clicked();
     void on_saveButton_clicked();
     void on_trainButton_clicked();
     void on_recogButton_clicked();
+
+    void on_delButton_clicked();
 };
 
 #endif // WIDGET_H

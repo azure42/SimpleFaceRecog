@@ -32,7 +32,7 @@ void Train::run()
         //分别储存起来，一一对应，并将num作为label进行训练
         int picCnt = 0;
         QString dirName = picPath[i];
-        qDebug() << "dir: " <<dirName;
+        //qDebug() << "dir: " <<dirName;
         QStringList strList = dirName.split("_");
         //qDebug() << strList.at(0) << "---" <<strList.at(1);
         //qDebug() << "strCnt: " <<strList.count();
@@ -45,10 +45,10 @@ void Train::run()
         {
             //文件夹内的图片遍历，将所有bmp读取为mat后压入vector待训练
             //qDebug() << "picName: " << picIt.filePath();
-            if(picIt.fileName().indexOf("bmp") != -1)
+            if(picIt.fileName().indexOf("pgm") != -1 || picIt.fileName().indexOf("bmp") != -1)
             {
                 picCnt ++;
-                qDebug() << "picPath: " << picIt.filePath();
+               // qDebug() << "picPath: " << picIt.filePath();
                 //qDebug() <<picIt.fileName().indexOf("bmp");
                 label.push_back(i);
                 Mat tmpMat = imread(picIt.filePath().toStdString(),0);
@@ -56,9 +56,9 @@ void Train::run()
                 resize(tmpMat,tmpMat2,Size(100,100));
 
                 image.push_back(tmpMat2);
-                qDebug() << i<<"-"<<tmpMat2.empty();
+                //qDebug() << i<<"-"<<tmpMat2.empty();
                // imshow(QString::number(i).toStdString(),tmpMat);
-                qDebug() << tmpMat2.rows <<"x" <<tmpMat2.cols;
+               // qDebug() << tmpMat2.rows <<"x" <<tmpMat2.cols;
                 tmpMat.release();
             }
             if(!picIt.hasNext()) break;
@@ -81,7 +81,12 @@ void Train::run()
             QString::number(t/((double)cvGetTickFrequency()*1000)) + "ms";
     sendMsg(tmpStr);
     //qDebug() << "train success in " << t/((double)cvGetTickFrequency()*1000) << "ms";
+    QFile modelFile("./model.yml");
+    if(modelFile.exists())
+        qDebug() << modelFile.remove();
+    modelFile.close();
     model->save("./model.yml");
+    emit(nameTableUpdate());
     this->quit();
 }
 

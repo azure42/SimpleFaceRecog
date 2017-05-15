@@ -1,5 +1,5 @@
 #include "collect.h"
-#define PICCNT 10
+#define PICCNT 30
 /*
  *录入若干人脸图片，并储存在num_name命名的文件夹内。
  * num自增，name在ui中录入

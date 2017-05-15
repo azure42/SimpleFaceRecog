@@ -10,7 +10,7 @@ Recog::Recog()
 
 void Recog::run()
 {
-    Ptr<FaceRecognizer> model = createEigenFaceRecognizer();
+    Ptr<FaceRecognizer> model = createLBPHFaceRecognizer();
     model->load("./model.yml");
 
 

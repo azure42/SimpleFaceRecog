@@ -11,10 +11,13 @@ Widget::Widget(QWidget *parent) :
     trainThread = new Train;
 
     imgTimer = new QTimer(this);
-    connect(imgTimer,SIGNAL(timeout()),this,SLOT(imgUpdate()));
-    connect(detectThread,SIGNAL(msgSend(QString)),this,SLOT(msgUpdate(QString)));
-    connect(collectThread,SIGNAL(msgSend(QString)),this,SLOT(msgUpdate(QString)));
-    connect(trainThread,SIGNAL(msgSend(QString)),this,SLOT(msgUpdate(QString)));
+    connect(imgTimer,SIGNAL(timeout()),this,SLOT(imgUpdateSlot()));
+    connect(detectThread,SIGNAL(msgSend(QString)),this,SLOT(msgUpdateSlot(QString)));
+    connect(detectThread,SIGNAL(nameLabelUpdate(QString)),this,SLOT(nameLabelUpdateSlot(QString)));
+
+    connect(collectThread,SIGNAL(msgSend(QString)),this,SLOT(msgUpdateSlot(QString)));
+    connect(trainThread,SIGNAL(msgSend(QString)),this,SLOT(msgUpdateSlot(QString)));
+    connect(trainThread,SIGNAL(nameTableUpdate()),this,SLOT(listUpdateSlot()));
 
     //detectThread->start();
     imgTimer->start(300);
@@ -33,7 +36,7 @@ Widget::~Widget()
     delete trainThread;
 }
 
-void Widget::imgUpdate()
+void Widget::imgUpdateSlot()
 {
     QPixmap img;
     static QString str;
@@ -54,10 +57,39 @@ void Widget::imgUpdate()
     }
 }
 
-void Widget::msgUpdate(QString msg)
+void Widget::msgUpdateSlot(QString msg)
 {
     ui->resultView->addItem(msg);
     ui->resultView->scrollToBottom();
+}
+
+void Widget::listUpdateSlot()
+{
+    qDebug() << "进入listupdate";
+    QDir picPath;
+    picPath.setPath("./data");
+    picPath.setFilter(QDir::Dirs | QDir::NoSymLinks |QDir::NoDotAndDotDot);
+    if(!picPath.exists())
+    {
+        qDebug() << "pic path not exsits!!";
+    }
+//    QTableWidgetItem *newItem0 = new QTableWidgetItem(QString("hello"));
+//    ui->nameTable->setItem(0,0,newItem0);
+
+    for(unsigned int i = 0;i < picPath.count();i++)
+    {
+        QString dirName = picPath[i];
+        QStringList strList = dirName.split("_");
+        QTableWidgetItem *newItem0 = new QTableWidgetItem(strList.at(0));
+        ui->nameTable->setItem(i,0,newItem0);
+        QTableWidgetItem *newItem1 = new QTableWidgetItem(strList.at(1));
+        ui->nameTable->setItem(i,1,newItem1);
+    }
+}
+
+void Widget::nameLabelUpdateSlot(QString name)
+{
+    ui->nameLabel->setText(name);
 }
 
 void Widget::on_detectButton_clicked()
@@ -101,5 +133,21 @@ void Widget::on_trainButton_clicked()
 
 void Widget::on_recogButton_clicked()
 {
+
+}
+
+void Widget::on_delButton_clicked()
+{
+    //TODO：将当前行对应的用户目录删除，重新进行训练。删除非空文件夹是个麻烦事儿
+//    QDir picPath;
+//    picPath.setPath("./data");
+//    picPath.setFilter(QDir::Dirs | QDir::NoSymLinks |QDir::NoDotAndDotDot);
+//    for(unsigned int i = 0;i < picPath.count();i++)
+//    {
+//        QString dirName = picPath[i];
+//        QStringList strList = dirName.split("_");
+//        if(ui->nameTable->itemAt(0,currentRow())->text() == strList.at(0));
+
+//    }
 
 }

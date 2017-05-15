@@ -25,6 +25,7 @@ private:
 
 signals:
     void msgSend(QString);
+    void nameTableUpdate();
 
 };
 
