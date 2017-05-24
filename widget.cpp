@@ -138,6 +138,36 @@ void Widget::on_recogButton_clicked()
 
 void Widget::on_delButton_clicked()
 {
+
+
+    if(ui->nameTable->currentColumn() == 0)
+    {
+        QDir picPath;
+        picPath.setPath("./data");
+        picPath.setFilter(QDir::Dirs | QDir::NoSymLinks |QDir::NoDotAndDotDot);
+        if(!picPath.exists())
+        {
+            qDebug() << "pic path not exsits!!";
+            return;
+        }
+        for(unsigned int i = 0;i < picPath.count();i++)
+        {
+            //文件夹遍历，每个文件夹名的格式为num_name，
+            QString dirName = picPath[i];
+            QStringList strList = dirName.split("_");
+
+            if(strList.at(0) == ui->nameTable->currentItem()->text() )
+            {
+                QString delDir;
+                delDir = (picPath.path()+"/"+dirName);
+                if(DeleteDirectory(delDir))
+                QMessageBox::warning(this,tr("完成"),strList.at(1)+"信息删除成功",QMessageBox::Ok);
+            }
+        }
+        ui->nameTable->removeRow(ui->nameTable->currentRow());
+
+    qDebug()<<ui->nameTable->currentItem()->text() ;
+    }
     //TODO：将当前行对应的用户目录删除，重新进行训练。删除非空文件夹是个麻烦事儿
 //    QDir picPath;
 //    picPath.setPath("./data");
@@ -150,4 +180,25 @@ void Widget::on_delButton_clicked()
 
 //    }
 
+}
+
+bool Widget::DeleteDirectory(const QString &path)
+{
+    if (path.isEmpty())
+        return false;
+
+    QDir dir(path);
+    if(!dir.exists())
+        return true;
+
+    dir.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot);
+    QFileInfoList fileList = dir.entryInfoList();
+    foreach (QFileInfo fi, fileList)
+    {
+        if (fi.isFile())
+            fi.dir().remove(fi.fileName());
+        else
+            DeleteDirectory(fi.absoluteFilePath());
+    }
+    return dir.rmpath(dir.absolutePath());
 }

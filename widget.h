@@ -42,6 +42,7 @@ private slots:
     void on_saveButton_clicked();
     void on_trainButton_clicked();
     void on_recogButton_clicked();
+    bool DeleteDirectory(const QString &path);
 
     void on_delButton_clicked();
 };
