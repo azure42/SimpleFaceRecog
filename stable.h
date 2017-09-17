@@ -24,7 +24,7 @@
     #define modelPATH "./eigenfaces_at.yml"
 #else //不是windows 也可以#elif defined(linux)
     #define CascadePATH "./haarcascade_frontalface_alt.xml"
-    #define NestedCascadePATH "./haarcascade_frontalface_alt.xml"
+    #define NestedCascadePATH "./haarcascade_eye_tree_eyeglasses.xml"
     #define DataPATH "./data/"
     #define modelPATH "./eigenfaces_at.yml"
 #endif
